@@ -17,6 +17,7 @@ class MoviesWidget extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: IntrinsicWidth(
+              //?prevent overflow
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
