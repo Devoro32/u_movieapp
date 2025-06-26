@@ -33,6 +33,9 @@ export 'package:u_movieapp/service/init_getit.dart';
 export 'package:u_movieapp/service/navigation_service.dart';
 export 'package:u_movieapp/service/api_service.dart';
 
+//!Utils
+export 'package:u_movieapp/utils/genre_utils.dart';
+
 //!widgets
 export 'package:u_movieapp/widgets/movies/favorite_btn.dart';
 export 'package:u_movieapp/widgets/my_error_widget.dart';

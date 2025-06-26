@@ -1,17 +1,19 @@
 import 'package:u_movieapp/export.dart';
 
 class GenresListWidget extends StatelessWidget {
-  const GenresListWidget({super.key});
-
+  const GenresListWidget({super.key, required this.movieModel});
+  final MovieModel movieModel;
   @override
   Widget build(BuildContext context) {
+    List<MoviesGenre> moviesGenre = GenreUtils.movieGenresNames(
+      movieModel.genreIds,
+    );
+    print(moviesGenre[0].name);
     return Wrap(
       children: List.generate(
-        MyAppConstants.genres.length,
-        (index) => chipWidget(
-          genreName: MyAppConstants.genres[index],
-          context: context,
-        ),
+        moviesGenre.length,
+        (index) =>
+            chipWidget(genreName: moviesGenre[index].name, context: context),
       ),
     );
   }
@@ -22,6 +24,7 @@ class GenresListWidget extends StatelessWidget {
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
@@ -30,6 +33,7 @@ class GenresListWidget extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+
           child: Text(
             genreName,
             style: TextStyle(

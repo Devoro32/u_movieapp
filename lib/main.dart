@@ -16,16 +16,16 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Movies App',
       navigatorKey: getIt<NavigationService>().navigatorKey,
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MoviesScreen(),
+      title: 'Movies App',
+      theme: MyThemeData.lightTheme,
+      home:
+          const SplashScreen(), //const MovieDetailsScreen(), //const FavoritesScreen(), //const MoviesScreen(),
     );
   }
 }

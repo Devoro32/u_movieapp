@@ -1,4 +1,5 @@
 import 'package:u_movieapp/export.dart';
+//!can't implement without a  proper state management
 
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({super.key});
@@ -18,7 +19,7 @@ class FavoritesScreen extends StatelessWidget {
       body: ListView.builder(
         itemCount: 10,
         itemBuilder: (context, index) {
-          return const MoviesWidget();
+          return Text("data"); //const MoviesWidget();
         },
       ),
     );

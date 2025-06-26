@@ -1,8 +1,9 @@
 import 'package:u_movieapp/export.dart';
 
 class MovieDetailsScreen extends StatelessWidget {
-  const MovieDetailsScreen({super.key});
+  const MovieDetailsScreen({super.key, required this.movieModel});
 
+  final MovieModel movieModel;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
@@ -10,10 +11,16 @@ class MovieDetailsScreen extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
-            SizedBox(
-              height: size.height * 0.45,
-              width: double.infinity,
-              child: const CachedImageWidget(imgUrl: MyAppConstants.movieImage),
+            Hero(
+              tag: movieModel.id, //!This value must be specific
+              child: SizedBox(
+                height: size.height * 0.45,
+                width: double.infinity,
+                child: CachedImageWidget(
+                  imgUrl:
+                      "https://image.tmdb.org/t/p/w500/${movieModel.backdropPath}",
+                ),
+              ),
             ),
             SingleChildScrollView(
               child: Column(
@@ -35,10 +42,10 @@ class MovieDetailsScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const SizedBox(height: 25),
-                                const Text(
-                                  "Movie Title",
+                                Text(
+                                  movieModel.title,
                                   maxLines: 2,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     // color: Theme.of(context).textSelectionColor,
                                     fontSize: 28.0,
                                     fontWeight: FontWeight.w600,
@@ -46,27 +53,29 @@ class MovieDetailsScreen extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 8),
                                 const SizedBox(height: 5.0),
-                                const Row(
+                                Row(
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       Icons.star,
                                       color: Colors.amber,
                                       size: 20,
                                     ),
-                                    SizedBox(width: 5),
-                                    Text("9/10"),
-                                    Spacer(),
+                                    const SizedBox(width: 5),
+                                    Text("${movieModel.voteAverage}/10"),
+                                    const Spacer(),
                                     Text(
-                                      "Release Date",
-                                      style: TextStyle(color: Colors.grey),
+                                      movieModel.releaseDate,
+                                      style: const TextStyle(
+                                        color: Colors.grey,
+                                      ),
                                     ),
                                   ],
                                 ),
                                 const SizedBox(height: 10),
-                                const GenresListWidget(),
+                                GenresListWidget(movieModel: movieModel),
                                 const SizedBox(height: 15),
                                 Text(
-                                  "overview " * 200,
+                                  movieModel.overview,
                                   textAlign: TextAlign.justify,
                                   style: const TextStyle(fontSize: 18.0),
                                 ),
@@ -82,9 +91,9 @@ class MovieDetailsScreen extends StatelessWidget {
                             color: Theme.of(context).cardColor,
                             shape: BoxShape.circle,
                           ),
-                          child: const Padding(
-                            padding: EdgeInsets.all(6.0),
-                            child: FavoriteBtnWidget(),
+                          child: Padding(
+                            padding: const EdgeInsets.all(6.0),
+                            child: FavoriteBtnWidget(movieModel: movieModel),
                           ),
                         ),
                       ),

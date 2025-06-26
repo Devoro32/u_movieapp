@@ -1,7 +1,9 @@
 import 'package:u_movieapp/export.dart';
 
 class MoviesWidget extends StatelessWidget {
-  const MoviesWidget({super.key});
+  const MoviesWidget({super.key, required this.movieModel});
+
+  final MovieModel movieModel;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -12,20 +14,25 @@ class MoviesWidget extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(12.0),
           onTap: () {
-            getIt<NavigationService>().navigate(const MovieDetailsScreen());
+            getIt<NavigationService>().navigate(
+              MovieDetailsScreen(movieModel: movieModel),
+            );
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: IntrinsicWidth(
-              //?prevent overflow
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(12.0),
-                    child: const CachedImageWidget(
-                      imgUrl: MyAppConstants.movieImage,
+                  Hero(
+                    tag: movieModel.id,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12.0),
+                      child: CachedImageWidget(
+                        imgUrl:
+                            "https://image.tmdb.org/t/p/w500/${movieModel.backdropPath}",
+                      ),
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -33,23 +40,29 @@ class MoviesWidget extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          "Movie Title",
-                          style: TextStyle(
+                        Text(
+                          movieModel.originalTitle,
+                          style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         const SizedBox(height: 10),
-                        const Row(
+                        Row(
                           children: [
-                            Icon(Icons.star, color: Colors.amber, size: 20),
-                            SizedBox(width: 5),
-                            Text("8/10"),
+                            const Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              "${movieModel.voteAverage.toStringAsFixed(2)}/10",
+                            ),
                           ],
                         ),
                         const SizedBox(height: 10),
-                        const GenresListWidget(),
+                        GenresListWidget(movieModel: movieModel),
                         Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -60,12 +73,12 @@ class MoviesWidget extends StatelessWidget {
                               color: Theme.of(context).colorScheme.secondary,
                             ),
                             const SizedBox(width: 5),
-                            const Text(
-                              "Release Date",
-                              style: TextStyle(color: Colors.grey),
+                            Text(
+                              movieModel.releaseDate,
+                              style: const TextStyle(color: Colors.grey),
                             ),
                             const Spacer(),
-                            const FavoriteBtnWidget(),
+                            FavoriteBtnWidget(movieModel: movieModel),
                           ],
                         ),
                       ],
